@@ -84,7 +84,7 @@ contract EnsDomain {
     uint _deadlineDomain = domainsList[domainName].deadlineDomain + period * yearToTimestamp;
     // общий срок домена должен быть от 1 до 10 лет
     require(
-      block.timestamp + yearToTimestamp * 1 < _deadlineDomain 
+      block.timestamp + yearToTimestamp < _deadlineDomain 
       && 
       _deadlineDomain < block.timestamp + yearToTimestamp * 10, 
       "Domain time only from 1 to 10 years"
