@@ -54,6 +54,15 @@ contract EnsDomain {
     wallet.transfer(address(this).balance);
   }
 
+  function addWallet(string memory domainName, uint deadline) private {
+    domainsList[domainName] = WalletInfo({
+      owner: msg.sender,
+      timestamp: block.timestamp,
+      price: msg.value,
+      deadlineDomain: deadline
+    });
+  }
+
   function registationDomain(string memory domainName, uint8 period) public payable checkPeriod(period) {
     require(msg.value >= getDomainPrice(period), "Value is not enough"); // проверяем достаточно ли value
     require(domainsList[domainName].deadlineDomain <= block.timestamp, // смотрим не истек ли срок его действия
@@ -65,12 +74,7 @@ contract EnsDomain {
     //   "Domain is unavaiable"
     // );
 
-    domainsList[domainName] = WalletInfo({
-      owner: msg.sender,
-      timestamp: block.timestamp,
-      price: msg.value,
-      deadlineDomain: block.timestamp + period * yearToTimestamp
-    });
+    addWallet(domainName, block.timestamp + period * yearToTimestamp);
   }
 
   function domainExtension(string memory domainName, uint8 period) public payable checkPeriod(period) {
@@ -86,11 +90,6 @@ contract EnsDomain {
       "Domain time only from 1 to 10 years"
     );
 
-    domainsList[domainName] = WalletInfo({
-      owner: msg.sender,
-      timestamp: block.timestamp,
-      price: msg.value,
-      deadlineDomain: _deadlineDomain
-    });
+    addWallet(domainName, _deadlineDomain);
   }
 }
