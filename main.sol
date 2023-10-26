@@ -6,7 +6,7 @@ contract EnsDomain {
   address owner;
   uint public priceDomainPerYear;
   uint public priceDomainPerYearExtension;
-  uint yearToTimestamp = 31536000; // 1 year = 31.536.000 timestamp
+  uint constant yearToTimestamp = 31536000; // 1 year = 31.536.000 timestamp
   mapping (string => WalletInfo) public domainsList;
 
   constructor() {
